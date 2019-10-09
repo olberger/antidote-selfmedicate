@@ -10,4 +10,4 @@ version: "0.4.0"
 vm_config:
   memory: 8192
   cores: 2
-  provider: virtualbox
+  provider: libvirt

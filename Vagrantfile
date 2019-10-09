@@ -72,7 +72,8 @@ Vagrant.configure("2") do |config|
 
 
   # Base Ubuntu Box
-  config.vm.box = "bento/ubuntu-16.04"
+  #use roboxes instead (comes for libvirt too)
+  config.vm.box = "generic/ubuntu1604"
 
   config.vm.hostname = "antidote-#{antidote_config['version'].to_s.tr('.', '')}"
 
