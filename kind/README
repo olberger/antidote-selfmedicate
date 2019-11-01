@@ -1,0 +1,44 @@
+Using KinD (Kubernetes in Docker) to run Antidote.
+
+See https://kind.sigs.k8s.io/ for more details about KinD
+
+Download the kind CLI command, following the docs, for instance:
+
+$ curl -Lo ./kind https://github.com/kubernetes-sigs/kind/releases/download/v0.5.1/kind-$(uname)-amd64
+$ chmod +x ./kind
+
+Set the path to the tool:
+
+$ export KIND=$(pwd)/kind
+
+Then modify the kind-config.yaml file to adjust the path of the
+curriculum repo, in the 'extraMounts.hostPath' setting, to point to
+the absolute path to where the repo is checked-out.
+
+The directory will be mounted into the kind node under /antidote,
+allowing to work on lesson content.
+
+You can now start the cluster with :
+
+$ $KIND --loglevel info create cluster --config kind-config.yaml
+
+Once it's booted, set the KUBECONFIG var for kubectl to use:
+
+$ export KUBECONFIG="$(kind/kind get kubeconfig-path --name="kind")"
+
+Set also set KUBECTL to point to the kubectl command :
+$ export KUBECTL=...path/to/kubectl
+
+You can then start the Antidote platorm over KinD using :
+$ ./start.sh
+
+Check the progress with $
+$ $KUBECTL get -A all
+
+When the syringe, antidote-web and ingress services are all up,
+connect to : http://localhost:30001/
+
+Stop the cluster with:
+$ $KIND --loglevel info delete cluster
+
+Enjoy :-)
