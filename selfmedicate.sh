@@ -23,7 +23,7 @@ MINIKUBE=${MINIKUBE:="sudo minikube"}
 KUBECTL=${KUBECTL:="kubectl"}
 PRELOADED_IMAGES=${PRELOADED_IMAGES:="vqfx-snap1 vqfx-snap2 vqfx-snap3 utility"}
 ANTIDOTEVERSION=${ANTIDOTEVERSION:="release-v0.4.0"}
-K8SVERSION=${K8SVERSION:="v1.14.0"}  # Needs to reflect the targeted version the Antidoteplatform was built against.
+K8SVERSION=${K8SVERSION:="v1.14.8"}  # Needs to reflect the targeted version the Antidoteplatform was built against.
 
 # Checking for prerequisites
 command -v $MINIKUBE > /dev/null

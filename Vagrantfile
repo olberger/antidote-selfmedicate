@@ -33,6 +33,8 @@ if defined? antidote_config['selfmedicate_prefs']['PRELOADED_IMAGES'] then
 end
 if antidote_config['selfmedicate_prefs']['KUBERNETES_VERSION'] then
   ENV['KUBERNETES_VERSION'] = antidote_config['selfmedicate_prefs']['KUBERNETES_VERSION']
+else
+  ENV['KUBERNETES_VERSION'] = 'v1.14.8'
 end
 
 ## Configure VAGRANT Variables
