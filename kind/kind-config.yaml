@@ -9,3 +9,4 @@ nodes:
   extraMounts:
   - containerPath: /antidote
     hostPath: /home/olivier/git/github.com/nre-learning/nrelabs-curriculum
+#    hostPath: c:/Users/Olivier Berger/Documents/GitHub/nrelabs-curriculum
