@@ -31,6 +31,7 @@ apt_package_install_list=(
   docker-ce
   docker-ce-cli
   containerd.io
+  conntrack
 )
 
 ### FUNCTIONS
