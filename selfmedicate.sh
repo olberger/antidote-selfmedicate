@@ -25,6 +25,8 @@ KUBECTL=${KUBECTL:="kubectl"}
 PRELOADED_IMAGES=${PRELOADED_IMAGES:=""}
 ANTIDOTEVERSION=${ANTIDOTEVERSION:="release-v0.4.0"}
 K8SVERSION=${K8SVERSION:="v1.14.10"}  # Needs to reflect the targeted version the Antidoteplatform was built against.
+echo "PRIVATE_NETWORK_IP set to $PRIVATE_NETWORK_IP."
+PRIVATE_NETWORK_IP=${PRIVATE_NETWORK_IP:="192.168.34.100"}
 
 # Checking for prerequisites
 command -v $MINIKUBE > /dev/null
@@ -69,6 +71,7 @@ sub_resume(){
         --memory $MEMORY \
         --vm-driver $VMDRIVER \
         --network-plugin=cni \
+        --extra-config kubelet.node-ip=$PRIVATE_NETWORK_IP \
         --extra-config=kubelet.network-plugin=cni \
         $EXTRA_PARAMS \
         --kubernetes-version=$K8SVERSION
@@ -130,6 +133,7 @@ sub_start(){
     --memory $MEMORY \
     --vm-driver $VMDRIVER \
     --network-plugin=cni \
+    --extra-config kubelet.node-ip=$PRIVATE_NETWORK_IP \
     --extra-config=kubelet.network-plugin=cni \
     $EXTRA_PARAMS \
     --kubernetes-version=$K8SVERSION  # Needs to reflect the targeted version the platform was built against.
