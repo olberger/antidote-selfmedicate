@@ -16,13 +16,35 @@ sub_run(){
     $KUBECTL create -f manifests/multusinstall.yml
     sub_wait_system
     
-    $KUBECTL create -f manifests/nginx-controller.yaml > /dev/null
-    $KUBECTL create -f manifests/acore.yaml > /dev/null
-    $KUBECTL create -f manifests/aweb.yaml > /dev/null
-    $KUBECTL create -f manifests/webssh2.yaml > /dev/null
-    $KUBECTL create -f manifests/jaeger.yaml > /dev/null
-    sub_wait_platform
+    # $KUBECTL create -f manifests/nginx-controller.yaml > /dev/null
+    # $KUBECTL create -f manifests/acore.yaml > /dev/null
+    # $KUBECTL create -f manifests/aweb.yaml > /dev/null
+    # $KUBECTL create -f manifests/webssh2.yaml > /dev/null
+    # $KUBECTL create -f manifests/jaeger.yaml > /dev/null
+    # sub_wait_platform
+
+    sudo minikube addons enable ingress
+    bash 2>/dev/null <(curl -sL  https://www.eclipse.org/che/chectl/)
+    # Wait for the ingress to have started
+    $KUBECTL rollout status deployment.apps/nginx-ingress-controller -n kube-system
+
+    # Configure the ingress so it binds to the external interface
+    #sudo nohup kubectl port-forward deployment.apps/ingress-nginx-controller -n kube-system --address 0.0.0.0 80:80 &
+    #sudo nohup kubectl port-forward deployment.apps/ingress-nginx-controller -n kube-system --address 0.0.0.0 443:443 &
+    $KUBECTL patch deployment nginx-ingress-controller -n kube-system --patch '{"spec":{"template":{"spec":{"hostNetwork":true}}}}'
+
+    # Wait for the restart of the ingress
+    sleep 5
+    $KUBECTL rollout status deployment.apps/nginx-ingress-controller -n kube-system
+
+    # Forward ports 80 and 443 to the ingress
+    $KUBECTL patch configmap -n kube-system tcp-services --patch '{"data":{"443":"deployment.apps/ingress-nginx-controller:443"}}'
+    $KUBECTL patch configmap -n kube-system tcp-services --patch '{"data":{"80":"deployment.apps/ingress-nginx-controller:80"}}'
+    hostaddress=$($KUBECTL get nodes --selector=kubernetes.io/role!=master -o jsonpath={.items[*].status.addresses[?\(@.type==\"InternalIP\"\)].address})
+    sudo chectl server:start --platform k8s -m --domain=$hostaddress.nip.io
+    
 }
+
 print_progress() {
     percentage=$1
     chars=$(echo "40 * $percentage"/1| bc)

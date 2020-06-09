@@ -77,7 +77,7 @@ sub_resume(){
         --kubernetes-version=$K8SVERSION
 
     bash container-start.sh wait_system
-    bash container-start.sh wait_platform
+    #bash container-start.sh wait_platform
     echo -e "${GREEN}Finished!${NC} Antidote should now be available at http://antidote-local:30001/"
 }
 
