@@ -55,7 +55,7 @@ print_progress() {
 
 sub_wait_system(){
     running_system_pods=0
-    total_system_pods=$($KUBECTL get pods -n=kube-system | tail -n +2 | wc -l)
+    total_system_pods=$($KUBECTL get pods -n=kube-system | tail -n +2 | grep -v Completed | wc -l)
     while [ $running_system_pods -lt $total_system_pods ]
     do
         running_system_pods=$($KUBECTL get pods -n=kube-system | grep Running | wc -l)
