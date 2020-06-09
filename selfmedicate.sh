@@ -61,12 +61,16 @@ sub_resume(){
         exit 1
     fi
 
+    if [ "$VMDRIVER" = "none" ]; then
+        EXTRA_PARAMS="--extra-config=kubelet.resolv-conf=/run/systemd/resolve/resolv.conf"
+    fi
     $MINIKUBE start \
         --cpus $CPUS \
         --memory $MEMORY \
         --vm-driver $VMDRIVER \
         --network-plugin=cni \
         --extra-config=kubelet.network-plugin=cni \
+        $EXTRA_PARAMS \
         --kubernetes-version=$K8SVERSION
 
     bash container-start.sh wait_system

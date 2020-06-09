@@ -117,7 +117,8 @@ install_kubectl() {
 
 install_minikube() {
   # Download the latest version
-  curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 &>/dev/null \
+  #curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 &>/dev/null
+  curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.8.2/minikube-linux-amd64 &>/dev/null \
   && chmod +x minikube &>/dev/null
   # Install into PATH
   sudo install minikube /usr/local/bin
